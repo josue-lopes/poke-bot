@@ -2,7 +2,12 @@ package com.josuelopes.bot.pokebot.services;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+
+import com.josuelopes.bot.pokebot.models.PokeModel;
+import com.josuelopes.bot.pokebot.models.StatModel;
 
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
@@ -11,11 +16,14 @@ import org.javacord.api.entity.channel.TextChannel;
 public class BotService
 {
     private DiscordApi discordApi;
+    private PokeApi pokeApi;
 
-    public BotService(){   }
+    public BotService() 
+    { 
+        pokeApi = new PokeApi();
+    }
 
-    // must be called to use bot
-    public void startBot()
+    public void init()
     {
         loginBot();
         setUpCommands();
@@ -47,7 +55,6 @@ public class BotService
             String message = event.getMessageContent();
             if (message.startsWith("!pokemon")) 
             {
-                event.getChannel().sendMessage("Grabbing Pokemon info...");
                 getPokemonCommand(event.getChannel(), message);
             }
         });
@@ -56,6 +63,27 @@ public class BotService
     // Gets proper pokemon info using API, formats and sends message
     private void getPokemonCommand(TextChannel channel, String message)
     {
+        String[] splitCommand = message.split(" ");
+        Optional<PokeModel> pokeData = pokeApi.getPokemon(splitCommand[1]);
 
+        if (pokeData.isPresent())
+        {
+            PokeModel validPoke = pokeData.get();
+            List<StatModel> stats = validPoke.getStats();
+
+            channel.sendMessage(
+                validPoke.getName() + " " + 
+                stats.get(0).getBaseStat() + " " +
+                stats.get(1).getBaseStat() + " " +
+                stats.get(2).getBaseStat() + " " +
+                stats.get(3).getBaseStat() + " " +
+                stats.get(4).getBaseStat() + " " +
+                stats.get(5).getBaseStat() + " "
+            );
+        }
+        else
+        {
+            channel.sendMessage("Pokemon wasn't found! Check if you're using the command correctly.");
+        }
     }
 }

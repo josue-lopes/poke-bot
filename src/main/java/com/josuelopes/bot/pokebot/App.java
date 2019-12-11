@@ -8,14 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class App 
 {
-    public App() 
-    {
+    public App() {
     }
     
     public static void main(String[] args) 
     {
         SpringApplication.run(App.class, args);
-        BotService service = new BotService();
-        service.startBot();
+
+        // init poke-bot
+        BotService bot = new BotService();
+        bot.init();
     }
 }
