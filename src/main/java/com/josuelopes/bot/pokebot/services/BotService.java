@@ -1,17 +1,23 @@
 package com.josuelopes.bot.pokebot.services;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
 import com.josuelopes.bot.pokebot.models.PokeModel;
+import com.josuelopes.bot.pokebot.models.SpriteModel;
 import com.josuelopes.bot.pokebot.models.StatModel;
 
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.entity.message.MessageBuilder;
+import org.javacord.api.entity.message.MessageDecoration;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 
 public class BotService
 {
@@ -70,16 +76,32 @@ public class BotService
         {
             PokeModel validPoke = pokeData.get();
             List<StatModel> stats = validPoke.getStats();
+            SpriteModel sprites = validPoke.getSprites();
 
-            channel.sendMessage(
-                validPoke.getName() + " " + 
-                stats.get(0).getBaseStat() + " " +
-                stats.get(1).getBaseStat() + " " +
-                stats.get(2).getBaseStat() + " " +
-                stats.get(3).getBaseStat() + " " +
-                stats.get(4).getBaseStat() + " " +
-                stats.get(5).getBaseStat() + " "
-            );
+            // create message with Pokemon data
+            new MessageBuilder()
+                .append("Name: ", MessageDecoration.BOLD) 
+                .append(validPoke.getName() + "\n")
+                .append("ID: ", MessageDecoration.BOLD)
+                .append(validPoke.getId() + "\n")
+                .append("Stats: \n", MessageDecoration.BOLD)
+                .append("Speed: ")
+                .append(stats.get(0).getBaseStat() + "\n", MessageDecoration.BOLD)
+                .append("Special Defence: ")
+                .append(stats.get(1).getBaseStat() + "\n", MessageDecoration.BOLD)
+                .append("Special Attack: ")
+                .append(stats.get(2).getBaseStat() + "\n", MessageDecoration.BOLD)
+                .append("Defence: ")
+                .append(stats.get(3).getBaseStat() + "\n", MessageDecoration.BOLD)
+                .append("Attack: ")
+                .append(stats.get(4).getBaseStat() + "\n", MessageDecoration.BOLD)
+                .append("HP: ")
+                .append(stats.get(5).getBaseStat() + "\n", MessageDecoration.BOLD)
+                .setEmbed(new EmbedBuilder()
+                    .setTitle(validPoke.getName())
+                    .setColor(Color.RED)
+                    .setImage(sprites.getFrontSprite()))
+                .send(channel);
         }
         else
         {
