@@ -17,9 +17,13 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.MessageDecoration;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BotService
 {
+    private final Logger LOGGER = LoggerFactory.getLogger(BotService.class);
+
     private DiscordApi discordApi;
     private PokeApi pokeApi;
 
@@ -30,6 +34,7 @@ public class BotService
 
     public void init()
     {
+        LOGGER.info("------Initializing PokeBot 1.0.0------");
         loginBot();
         setUpCommands();
     }
@@ -37,6 +42,8 @@ public class BotService
     // logs the bot into Discord with secret
     private void loginBot()
     {
+        LOGGER.info("Logging into Discord with credentials from file");
+        
         try(InputStream input = BotService.class.getClassLoader().getResourceAsStream("config.properties"))
         {
             Properties prop = new Properties();
@@ -48,6 +55,8 @@ public class BotService
         }
         catch(IOException exception)
         {
+            // TODO: exception handling 2.0
+            LOGGER.error("Wasn't able to read Discord credentials from file");
             exception.printStackTrace();
         }
     }
@@ -55,6 +64,8 @@ public class BotService
     // sets up all commands the bot will be listening for
     private void setUpCommands()
     {
+        LOGGER.info("Adding listener for !pokemon command");
+
         // !pokemon command
         discordApi.addMessageCreateListener(event -> {
             String message = event.getMessageContent();
@@ -76,6 +87,8 @@ public class BotService
             PokeModel validPoke = pokeData.get();
             List<StatModel> stats = validPoke.getStats();
             SpriteModel sprites = validPoke.getSprites();
+
+            LOGGER.info("Outputting info for " + validPoke.getName() + " to Discord");
 
             // create message with Pokemon data
             new MessageBuilder()
@@ -105,6 +118,7 @@ public class BotService
         }
         else
         {
+            LOGGER.warn("No Pokemon data was able to be returned from the last API call");
             channel.sendMessage("Pokemon wasn't found! Check if you're using the command correctly.");
         }
     }

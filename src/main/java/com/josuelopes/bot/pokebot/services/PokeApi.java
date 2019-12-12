@@ -64,7 +64,6 @@ public class PokeApi
     public Optional<PokeModel> getPokemon(String id)
     {
         String pokeUrl = apiUrl.concat(id);
-        System.out.println(pokeUrl);
         
         try
         {
