@@ -27,6 +27,18 @@ public class PokeApi
     public static final int STAT_ATK = 4;
     public static final int STAT_HP = 5;
 
+    private enum Nature
+    {
+        NAT_ADAMANT,
+        NAT_MODEST,
+        NAT_BOLD,
+        NAT_IMPISH,
+        NAT_CALM,
+        NAT_CAREFUL,
+        NAT_JOLLY,
+        NAT_TIMID
+    }
+
     private RestTemplate restTemplate;
     private HttpHeaders headers;
     private HttpEntity<String> entity;
@@ -113,126 +125,126 @@ public class PokeApi
 
         if (highestStatIndex == STAT_ATK)
         {
-            natureRec +="Highest Stat: Attack\nRecommended Nature: Adamant (+Atk/-Sp.Atk)\n";
+            natureRec += getPrimaryNatureString(Nature.NAT_ADAMANT, STAT_ATK);
 
             if (spDef > def && spDef >= speed)
-                natureRec += "Secondary Option: Careful (+Sp.Def/-Sp.Atk)\n";
+                natureRec += getSecondaryNatureString(Nature.NAT_CAREFUL);
             else if (def > spDef && def >= speed)
-                natureRec += "Secondary Option: Impish (+Def/-Sp.Atk)\n";
+                natureRec += getSecondaryNatureString(Nature.NAT_IMPISH);
             else if (speed > def && speed > spDef)
-                natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk)\n";
+                natureRec += getSecondaryNatureString(Nature.NAT_JOLLY);
             else if (def == spDef)
-                natureRec += "Secondary Option: Careful (+Sp.Def/-Sp.Atk), Impish (+Def/-Sp.Atk)\n";
+                natureRec += getSecondaryNatureString(Nature.NAT_CAREFUL, Nature.NAT_IMPISH);
         }
         else if (highestStatIndex == STAT_SP_ATK)
         {
-            natureRec += "Highest Stat: Special Attack\nRecommended Nature: Modest (+Sp.Atk/-Atk)\n";
+            natureRec += getPrimaryNatureString(Nature.NAT_MODEST, STAT_SP_ATK);
 
             if (spDef > def && spDef >= speed)
-                natureRec += "Secondary Option: Calm (+Sp.Def/-Atk)\n";
+                natureRec += getSecondaryNatureString(Nature.NAT_CALM);
             else if (def > spDef && def >= speed)
-                natureRec += "Secondary Option: Bold (+Def/-Atk)\n";
+                natureRec += getSecondaryNatureString(Nature.NAT_BOLD);
             else if (speed > def && speed > spDef)
-                natureRec += "Secondary Option: Timid (+Speed/-Atk)\n";
+                natureRec += getSecondaryNatureString(Nature.NAT_TIMID);
             else if (def == spDef)
-                natureRec += "Secondary Option: Calm (+Sp.Def/-Atk), Bold (+Def/-Atk)\n";
+                natureRec += getSecondaryNatureString(Nature.NAT_CALM, Nature.NAT_BOLD);
         }
         else if (highestStatIndex == STAT_DEF)
         {
             if (spAtk > atk)
             {
-                natureRec += "Highest Stat: Defence\nRecommended Nature: Bold (+Def/-Atk)\n";
+                natureRec += getPrimaryNatureString(Nature.NAT_BOLD, STAT_DEF);
 
                 if (spAtk >= speed)
-                    natureRec += "Secondary Option: Modest (+Sp.Atk/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_MODEST);
                 else
-                    natureRec += "Secondary Option: Timid (+Speed/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_TIMID);
                 
             }
             else if (atk > spAtk)
             {
-                natureRec += "Highest Stat: Defence\nRecommended Nature: Impish (+Def/-Sp.Atk)\n";
+                natureRec += getPrimaryNatureString(Nature.NAT_IMPISH, STAT_DEF);
 
                 if (atk >= speed)
-                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_ADAMANT);
                 else
-                    natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_JOLLY);
             }
             else if (atk == spAtk)
             {
-                natureRec += "Highest Stat: Defence\nRecommended Nature: Bold (+Def/-Atk), Impish (+Def/-Sp.Atk)\n";
+                natureRec += getPrimaryNatureString(Nature.NAT_BOLD, Nature.NAT_IMPISH, STAT_DEF);
 
                 if (atk >= speed)
-                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk), Modest (+Sp.Atk/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_ADAMANT, Nature.NAT_MODEST);
                 else
-                    natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk), Timid (+Speed/-Atk)\n"; 
+                    natureRec += getSecondaryNatureString(Nature.NAT_JOLLY, Nature.NAT_TIMID); 
             }
         }
         else if (highestStatIndex == STAT_SP_DEF)
         {
             if (spAtk > atk)
             {
-                natureRec += "Highest Stat: Special Defence\nRecommended Nature: Calm (+Sp.Def/-Atk)\n";
+                natureRec += getPrimaryNatureString(Nature.NAT_CALM, STAT_SP_DEF);
 
                 if (spAtk >= speed)
-                    natureRec += "Secondary Option: Modest (+Sp.Atk/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_MODEST);
                 else
-                    natureRec += "Secondary Option: Timid (+Speed/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_TIMID);
             }
             else if (atk > spAtk)
             {
-                natureRec += "Highest Stat: Special Defence\nRecommended Nature: Careful (+Sp.Def/-Sp.Atk)\n";
+                natureRec += getPrimaryNatureString(Nature.NAT_CAREFUL, STAT_SP_DEF);
 
                 if (atk >= speed)
-                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_ADAMANT);
                 else
-                    natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_JOLLY);
             }
             else if (atk == spAtk)
             {
-                natureRec += "Highest Stat: Special Defence\nRecommended Nature: Calm (+Sp.Def/-Atk), Careful (+Sp.Def/-Sp.Atk)\n";
+                natureRec += getPrimaryNatureString(Nature.NAT_CALM, Nature.NAT_CAREFUL, STAT_SP_DEF);
 
                 if (atk >= speed)
-                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk), Modest (+Sp.Atk/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_ADAMANT, Nature.NAT_MODEST);
                 else
-                    natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk), Timid (+Speed/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_JOLLY, Nature.NAT_TIMID);
             }
         }
         else if (highestStatIndex == STAT_SPEED)
         {
             if (spAtk > atk)
             {
-                natureRec += "Highest Stat: Speed\nRecommended Nature: Timid (+Speed/-Atk)\n";
+                natureRec += getPrimaryNatureString(Nature.NAT_TIMID, STAT_SPEED);
 
                 if (def > spAtk)
-                    natureRec += "Secondary Option: Bold (+Def/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_BOLD);
                 else if (spDef > spAtk)
-                    natureRec += "Secondary Option: Calm (+Sp.Def/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_CALM);
                 else
-                    natureRec += "Secondary Option: Modest (+Sp.Atk/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_MODEST);
 
             }
             else if (atk > spAtk)
             {
-                natureRec += "Highest Stat: Speed\nRecommended Nature: Jolly (+Speed/-Sp.Atk)\n";
+                natureRec += getPrimaryNatureString(Nature.NAT_JOLLY, STAT_SPEED);
 
                 if (def > atk)
-                    natureRec += "Secondary Option: Impish (+Def/-Sp.Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_IMPISH);
                 else if (spDef > atk)
-                    natureRec += "Secondary Option: Careful (+Sp.Def/-Sp.Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_CAREFUL);
                 else
-                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_ADAMANT);
             }
             else if (atk == spAtk)
             {
-                natureRec += "Highest Stat: Speed\nRecommended Nature: Timid (+Speed/-Atk), Jolly (+Speed/-Sp.Atk)\n";
+                natureRec += getPrimaryNatureString(Nature.NAT_TIMID, Nature.NAT_JOLLY, STAT_SPEED);
 
                 if (def > atk)
-                    natureRec += "Secondary Option: Bold (+Def/-Atk), Impish (+Def/-Sp.Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_BOLD, Nature.NAT_IMPISH);
                 else if (spDef > atk)
-                    natureRec += "Secondary Option: Careful (+Sp.Def/-Sp.Atk), Calm (+Sp.Def/-Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_CALM, Nature.NAT_CAREFUL);
                 else
-                    natureRec += "Secondary Option: Modest (+Sp.Atk/-Atk), Adamant (+Atk/-Sp.Atk)\n";
+                    natureRec += getSecondaryNatureString(Nature.NAT_MODEST, Nature.NAT_ADAMANT);
             }
         }
 
@@ -249,5 +261,78 @@ public class PokeApi
         }
 
         return (average / 6.0);
+    }
+
+    private String getPrimaryNatureString(Nature nature, int highestStatIndex)
+    {
+        String natureString = "Highest Stat: " + getStringFromStat(highestStatIndex) + "\n";
+        natureString += "Recommended Nature: " + getStringFromNature(nature) + "\n";
+        
+        return natureString;
+    }
+
+    private String getPrimaryNatureString(Nature nature1, Nature nature2, int highestStatIndex)
+    {
+        String natureString = "Highest Stat: " + getStringFromStat(highestStatIndex) + "\n";
+        natureString += "Recommended Nature: " + getStringFromNature(nature1) + ", ";
+        natureString += getStringFromNature(nature2) + "\n";
+        
+        return natureString;
+    }
+
+    private String getSecondaryNatureString(Nature nature)
+    {
+        String natureString = "Secondary Option: " + getStringFromNature(nature) + "\n";
+        
+        return natureString;
+    }
+
+    private String getSecondaryNatureString(Nature nature1, Nature nature2)
+    {
+        String natureString = "Secondary Option: " + getStringFromNature(nature1) + ", ";
+        natureString += getStringFromNature(nature2) + "\n";
+        
+        return natureString;
+    }
+
+    private String getStringFromNature(Nature nature)
+    {
+        switch(nature)
+        {
+            case NAT_ADAMANT:
+                return "Adamant (+Atk/-Sp.Atk)";
+            case NAT_BOLD:
+                return "Bold (+Def/-Atk)";
+            case NAT_CALM:
+                return "Calm (+Sp.Def/-Atk)";
+            case NAT_CAREFUL:
+                return "Careful (+Sp.Def/-Sp.Atk)";
+            case NAT_IMPISH:
+                return "Impish (+Def/-Sp.Atk)";
+            case NAT_JOLLY:
+                return "Jolly (+Speed/-Sp.Atk)";
+            case NAT_MODEST:
+                return "Modest (+Sp.Atk/-Atk)";
+            case NAT_TIMID:
+                return "Timid (+Speed/-Atk)";
+            default: 
+                return ""; // TODO: throw exception
+        }
+    }
+
+    private String getStringFromStat(int statIndex)
+    {
+        if (statIndex == STAT_SPEED)
+            return "Speed";
+        else if (statIndex == STAT_SP_DEF)
+            return "Special Defence";
+        else if (statIndex == STAT_SP_ATK)
+            return "Special Attack";
+        else if (statIndex == STAT_DEF)
+            return "Defence";
+        else if (statIndex == STAT_ATK)
+            return "Attack";
+        else
+            return ""; // TODO: throw exception
     }
 }
