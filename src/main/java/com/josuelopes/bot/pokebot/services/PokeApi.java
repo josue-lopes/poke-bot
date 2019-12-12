@@ -85,37 +85,21 @@ public class PokeApi
     // analyze base stats of pokemon and recommend natures accordingly
     public String getNatureRecommendation(List<StatModel> stats)
     {
-        String attackNature = "";
-        String defenceNature = "";
-        String speedNature = "";
+        // store stat values to compare
+        int speed = stats.get(STAT_SPEED).getBaseStat();
+        int atk = stats.get(STAT_ATK).getBaseStat();
+        int def = stats.get(STAT_DEF).getBaseStat();
+        int spAtk = stats.get(STAT_SP_ATK).getBaseStat();
+        int spDef = stats.get(STAT_SP_DEF).getBaseStat();
 
-        // compare attack stats
-        if (stats.get(STAT_SP_ATK).getBaseStat() > stats.get(STAT_ATK).getBaseStat())
-            attackNature = "Modest";
-        else if (stats.get(STAT_ATK).getBaseStat() > stats.get(STAT_SP_ATK).getBaseStat())
-            attackNature = "Adamant";
+        // string to be constructed and returned
+        String natureRec = "";
 
-        // compare defence stats
-        if (stats.get(STAT_SP_DEF).getBaseStat() > stats.get(STAT_DEF).getBaseStat())
-        {
-            if (attackNature == "Adamant")
-                defenceNature = "Careful";
-            else if (attackNature == "Modest")
-                defenceNature = "Calm";
-        }
-        else if (stats.get(STAT_DEF).getBaseStat() > stats.get(STAT_SP_DEF).getBaseStat())
-        {
-            if (attackNature == "Adamant")
-                defenceNature = "Impish";
-            else if (attackNature == "Modest")
-                defenceNature = "Bold";
-        }
-
+        // get index and value of highest stat
         int highestStatIndex = 0;
         int highestStatValue = 0;
         double statAverage = getAverageStatValue(stats);
 
-        // loop through all stats except HP
         for (int i = 0; i < 5; ++i)
         {
             int baseStat = stats.get(i).getBaseStat();
@@ -127,14 +111,132 @@ public class PokeApi
             }
         }
 
-        if (highestStatValue == STAT_SPEED)
+        if (highestStatIndex == STAT_ATK)
         {
-            //if ("")
+            natureRec +="Highest Stat: Attack\nRecommended Nature: Adamant (+Atk/-Sp.Atk)\n";
+
+            if (spDef > def && spDef >= speed)
+                natureRec += "Secondary Option: Careful (+Sp.Def/-Sp.Atk)\n";
+            else if (def > spDef && def >= speed)
+                natureRec += "Secondary Option: Impish (+Def/-Sp.Atk)\n";
+            else if (speed > def && speed > spDef)
+                natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk)\n";
+            else if (def == spDef)
+                natureRec += "Secondary Option: Careful (+Sp.Def/-Sp.Atk), Impish (+Def/-Sp.Atk)\n";
+        }
+        else if (highestStatIndex == STAT_SP_ATK)
+        {
+            natureRec += "Highest Stat: Special Attack\nRecommended Nature: Modest (+Sp.Atk/-Atk)\n";
+
+            if (spDef > def && spDef >= speed)
+                natureRec += "Secondary Option: Calm (+Sp.Def/-Atk)\n";
+            else if (def > spDef && def >= speed)
+                natureRec += "Secondary Option: Bold (+Def/-Atk)\n";
+            else if (speed > def && speed > spDef)
+                natureRec += "Secondary Option: Timid (+Speed/-Atk)\n";
+            else if (def == spDef)
+                natureRec += "Secondary Option: Calm (+Sp.Def/-Atk), Bold (+Def/-Atk)\n";
+        }
+        else if (highestStatIndex == STAT_DEF)
+        {
+            if (spAtk > atk)
+            {
+                natureRec += "Highest Stat: Defence\nRecommended Nature: Bold (+Def/-Atk)\n";
+
+                if (spAtk >= speed)
+                    natureRec += "Secondary Option: Modest (+Sp.Atk/-Atk)\n";
+                else
+                    natureRec += "Secondary Option: Timid (+Speed/-Atk)\n";
+                
+            }
+            else if (atk > spAtk)
+            {
+                natureRec += "Highest Stat: Defence\nRecommended Nature: Impish (+Def/-Sp.Atk)\n";
+
+                if (atk >= speed)
+                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk)\n";
+                else
+                    natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk)\n";
+            }
+            else if (atk == spAtk)
+            {
+                natureRec += "Highest Stat: Defence\nRecommended Nature: Bold (+Def/-Atk), Impish (+Def/-Sp.Atk)\n";
+
+                if (atk >= speed)
+                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk), Modest (+Sp.Atk/-Atk)\n";
+                else
+                    natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk), Timid (+Speed/-Atk)\n"; 
+            }
+        }
+        else if (highestStatIndex == STAT_SP_DEF)
+        {
+            if (spAtk > atk)
+            {
+                natureRec += "Highest Stat: Special Defence\nRecommended Nature: Calm (+Sp.Def/-Atk)\n";
+
+                if (spAtk >= speed)
+                    natureRec += "Secondary Option: Modest (+Sp.Atk/-Atk)\n";
+                else
+                    natureRec += "Secondary Option: Timid (+Speed/-Atk)\n";
+            }
+            else if (atk > spAtk)
+            {
+                natureRec += "Highest Stat: Special Defence\nRecommended Nature: Careful (+Sp.Def/-Sp.Atk)\n";
+
+                if (atk >= speed)
+                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk)\n";
+                else
+                    natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk)\n";
+            }
+            else if (atk == spAtk)
+            {
+                natureRec += "Highest Stat: Special Defence\nRecommended Nature: Calm (+Sp.Def/-Atk), Careful (+Sp.Def/-Sp.Atk)\n";
+
+                if (atk >= speed)
+                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk), Modest (+Sp.Atk/-Atk)\n";
+                else
+                    natureRec += "Secondary Option: Jolly (+Speed/-Sp.Atk), Timid (+Speed/-Atk)\n";
+            }
+        }
+        else if (highestStatIndex == STAT_SPEED)
+        {
+            if (spAtk > atk)
+            {
+                natureRec += "Highest Stat: Speed\nRecommended Nature: Timid (+Speed/-Atk)\n";
+
+                if (def > spAtk)
+                    natureRec += "Secondary Option: Bold (+Def/-Atk)\n";
+                else if (spDef > spAtk)
+                    natureRec += "Secondary Option: Calm (+Sp.Def/-Atk)\n";
+                else
+                    natureRec += "Secondary Option: Modest (+Sp.Atk/-Atk)\n";
+
+            }
+            else if (atk > spAtk)
+            {
+                natureRec += "Highest Stat: Speed\nRecommended Nature: Jolly (+Speed/-Sp.Atk)\n";
+
+                if (def > atk)
+                    natureRec += "Secondary Option: Impish (+Def/-Sp.Atk)\n";
+                else if (spDef > atk)
+                    natureRec += "Secondary Option: Careful (+Sp.Def/-Sp.Atk)\n";
+                else
+                    natureRec += "Secondary Option: Adamant (+Atk/-Sp.Atk)\n";
+            }
+            else if (atk == spAtk)
+            {
+                natureRec += "Highest Stat: Speed\nRecommended Nature: Timid (+Speed/-Atk), Jolly (+Speed/-Sp.Atk)\n";
+
+                if (def > atk)
+                    natureRec += "Secondary Option: Bold (+Def/-Atk), Impish (+Def/-Sp.Atk)\n";
+                else if (spDef > atk)
+                    natureRec += "Secondary Option: Careful (+Sp.Def/-Sp.Atk), Calm (+Sp.Def/-Atk)\n";
+                else
+                    natureRec += "Secondary Option: Modest (+Sp.Atk/-Atk), Adamant (+Atk/-Sp.Atk)\n";
+            }
         }
 
-        // TODO: check for even stat case
-        // TODO: construct final string with recommended natures
-        return "";
+        return natureRec;
     }
 
     private double getAverageStatValue(List<StatModel> stats)
