@@ -8,6 +8,8 @@ import com.josuelopes.bot.pokebot.debug.RestTemplateErrorHandler;
 import com.josuelopes.bot.pokebot.models.PokeModel;
 import com.josuelopes.bot.pokebot.models.StatModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class PokeApi
 {
+    // used to identify stat collection indices
     public static final int STAT_SPEED = 0;
     public static final int STAT_SP_DEF = 1;
     public static final int STAT_SP_ATK = 2;
@@ -27,48 +30,44 @@ public class PokeApi
     public static final int STAT_ATK = 4;
     public static final int STAT_HP = 5;
 
-    private enum Nature
-    {
-        NAT_ADAMANT,
-        NAT_MODEST,
-        NAT_BOLD,
-        NAT_IMPISH,
-        NAT_CALM,
-        NAT_CAREFUL,
-        NAT_JOLLY,
-        NAT_TIMID
-    }
+    private final Logger LOGGER = LoggerFactory.getLogger(PokeApi.class);
 
+    // used to make http requests to pokemon database
     private RestTemplate restTemplate;
     private HttpHeaders headers;
     private HttpEntity<String> entity;
-
     private String apiUrl = "https://pokeapi.co/api/v2/pokemon/";
     
     public PokeApi() 
     {
-        RestTemplateErrorHandler errorHandler = new RestTemplateErrorHandler();
+        // RestTemplateErrorHandler errorHandler = new RestTemplateErrorHandler();
         headers = new HttpHeaders();    
         restTemplate = new RestTemplate();
     
-        // set headers for REST API
+        // set user-agent to not get blocked by Pokemon API
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("user-agent", "spring");
         entity = new HttpEntity<String>("parameters", headers);
 
         // set custom error handler
-        restTemplate.setErrorHandler(errorHandler);
+        // restTemplate.setErrorHandler(errorHandler);
     }
 
+    // get unique pokemon JSON file from API and convert into object
     public Optional<PokeModel> getPokemon(String id)
     {
+        // add unique ID to the base url
         String pokeUrl = apiUrl.concat(id);
+
+        LOGGER.info("Attempting to grab pokemon data at " + pokeUrl);
         
         try
         {
+            // create an HTTP GET request to the API, convert JSON into object and return
             ResponseEntity<PokeModel> responseEntity = restTemplate.exchange(pokeUrl, HttpMethod.GET, entity, PokeModel.class);
             Optional<PokeModel> pokeData = Optional.of(responseEntity.getBody());
+
             return pokeData;
         }
         catch (NullPointerException exception)
@@ -96,6 +95,8 @@ public class PokeApi
     // analyze base stats of pokemon and recommend natures accordingly
     public String getNatureRecommendation(List<StatModel> stats)
     {
+        LOGGER.info("Calculating nature recommendation for current Pokemon");
+
         // store stat values to compare
         int speed = stats.get(STAT_SPEED).getBaseStat();
         int atk = stats.get(STAT_ATK).getBaseStat();
@@ -122,6 +123,7 @@ public class PokeApi
             }
         }
 
+        // compare stats to determine which natures to recommend
         if (highestStatIndex == STAT_ATK)
         {
             natureRec += getPrimaryNatureString(Nature.NAT_ADAMANT, STAT_ATK);
@@ -246,22 +248,11 @@ public class PokeApi
                     natureRec += getSecondaryNatureString(Nature.NAT_MODEST, Nature.NAT_ADAMANT);
             }
         }
-
+        
         return natureRec;
     }
 
-    private double getAverageStatValue(List<StatModel> stats)
-    {
-        double average = 0.0;
-
-        for(StatModel stat: stats)
-        {
-            average += stat.getBaseStat();
-        }
-
-        return (average / 6.0);
-    }
-
+    // create formatted string for 1 primary nature recommendation
     private String getPrimaryNatureString(Nature nature, int highestStatIndex)
     {
         String natureString = "Highest Stat: " + getStringFromStat(highestStatIndex) + "\n";
@@ -270,6 +261,7 @@ public class PokeApi
         return natureString;
     }
 
+    // create formatted string for 2 primary natures recommendation
     private String getPrimaryNatureString(Nature nature1, Nature nature2, int highestStatIndex)
     {
         String natureString = "Highest Stat: " + getStringFromStat(highestStatIndex) + "\n";
@@ -279,6 +271,7 @@ public class PokeApi
         return natureString;
     }
 
+    // create formatted string for 1 secondary nature recommendation
     private String getSecondaryNatureString(Nature nature)
     {
         String natureString = "Secondary Option: " + getStringFromNature(nature) + "\n";
@@ -286,6 +279,7 @@ public class PokeApi
         return natureString;
     }
 
+    // create formatted string for 2 secondary natures recommendation
     private String getSecondaryNatureString(Nature nature1, Nature nature2)
     {
         String natureString = "Secondary Option: " + getStringFromNature(nature1) + ", ";
@@ -294,6 +288,7 @@ public class PokeApi
         return natureString;
     }
 
+    // return formatted string based on input nature enum
     private String getStringFromNature(Nature nature)
     {
         switch(nature)
@@ -319,6 +314,7 @@ public class PokeApi
         }
     }
 
+    // return formatted string based on input stat constant
     private String getStringFromStat(int statIndex)
     {
         if (statIndex == STAT_SPEED)
@@ -333,5 +329,29 @@ public class PokeApi
             return "Attack";
         else
             return ""; // TODO: throw exception
+    }
+
+    private double getAverageStatValue(List<StatModel> stats)
+    {
+        double average = 0.0;
+
+        for(StatModel stat: stats)
+        {
+            average += stat.getBaseStat();
+        }
+
+        return (average / 6.0);
+    }
+
+    private enum Nature
+    {
+        NAT_ADAMANT,
+        NAT_MODEST,
+        NAT_BOLD,
+        NAT_IMPISH,
+        NAT_CALM,
+        NAT_CAREFUL,
+        NAT_JOLLY,
+        NAT_TIMID
     }
 }

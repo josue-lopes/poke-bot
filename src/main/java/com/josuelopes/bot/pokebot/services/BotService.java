@@ -88,8 +88,6 @@ public class BotService
             List<StatModel> stats = validPoke.getStats();
             SpriteModel sprites = validPoke.getSprites();
 
-            LOGGER.info("Outputting info for " + validPoke.getName() + " to Discord");
-
             // create message with Pokemon data
             new MessageBuilder()
                 .append("Name: ", MessageDecoration.BOLD) 
@@ -115,6 +113,8 @@ public class BotService
                     .setColor(Color.RED)
                     .setImage(sprites.getFrontSprite()))
                 .send(channel);
+
+            LOGGER.info("Outputting info for " + validPoke.getName() + " to Discord");
         }
         else
         {
