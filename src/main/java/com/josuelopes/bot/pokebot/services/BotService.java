@@ -69,7 +69,7 @@ public class BotService
     private void getPokemonCommand(TextChannel channel, String message)
     {
         String[] splitCommand = message.split(" ");
-        Optional<PokeModel> pokeData = pokeApi.getPokemon(splitCommand[1]);
+        Optional<PokeModel> pokeData = pokeApi.getPokemon(splitCommand[1].toLowerCase());
 
         if (pokeData.isPresent())
         {
