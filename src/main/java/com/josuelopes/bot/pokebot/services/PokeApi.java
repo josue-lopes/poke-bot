@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import com.josuelopes.bot.pokebot.debug.RestTemplateErrorHandler;
 import com.josuelopes.bot.pokebot.models.PokeModel;
 import com.josuelopes.bot.pokebot.models.StatModel;
 
@@ -15,8 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,7 +37,6 @@ public class PokeApi
     
     public PokeApi() 
     {
-        // RestTemplateErrorHandler errorHandler = new RestTemplateErrorHandler();
         headers = new HttpHeaders();    
         restTemplate = new RestTemplate();
     
@@ -48,10 +44,8 @@ public class PokeApi
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("user-agent", "spring");
+        
         entity = new HttpEntity<String>("parameters", headers);
-
-        // set custom error handler
-        // restTemplate.setErrorHandler(errorHandler);
     }
 
     // get unique pokemon JSON file from API and convert into object
@@ -70,24 +64,9 @@ public class PokeApi
 
             return pokeData;
         }
-        catch (NullPointerException exception)
-        {
-            System.out.println("Null Pointer Exception: " + exception.getMessage());
-            return Optional.empty();
-        }
-        catch (HttpClientErrorException exception)
-        {
-            System.out.println("HTTP Client Error Exception: " + exception.getMessage());
-            return Optional.empty();
-        }
-        catch (HttpServerErrorException exception)
-        {
-            System.out.println("HTTP Server Error Exception: " + exception.getMessage());
-            return Optional.empty();
-        }
         catch (RestClientException exception)
         {
-            System.out.println("Rest Client Exception: " + exception.getMessage());
+            LOGGER.error("RestClientException in PokeApi class: HTTP error when requesting data from Pokemon API\n", exception);
             return Optional.empty();
         }
     }
@@ -248,7 +227,7 @@ public class PokeApi
                     natureRec += getSecondaryNatureString(Nature.NAT_MODEST, Nature.NAT_ADAMANT);
             }
         }
-        
+
         return natureRec;
     }
 
@@ -310,7 +289,7 @@ public class PokeApi
             case NAT_TIMID:
                 return "Timid (+Speed/-Atk)";
             default: 
-                return ""; // TODO: throw exception
+                throw new IllegalArgumentException("Invalid nature argument\n");
         }
     }
 
@@ -328,7 +307,7 @@ public class PokeApi
         else if (statIndex == STAT_ATK)
             return "Attack";
         else
-            return ""; // TODO: throw exception
+            throw new IllegalArgumentException("Invalid stat argument\n");
     }
 
     private double getAverageStatValue(List<StatModel> stats)

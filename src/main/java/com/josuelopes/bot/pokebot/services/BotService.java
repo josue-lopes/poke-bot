@@ -55,9 +55,7 @@ public class BotService
         }
         catch(IOException exception)
         {
-            // TODO: exception handling 2.0
-            LOGGER.error("Wasn't able to read Discord credentials from file");
-            exception.printStackTrace();
+            LOGGER.error("IOException in BotService class: Wasn't able to read Discord credentials from config.properties\n", exception);
         }
     }
 
@@ -79,9 +77,11 @@ public class BotService
     // Gets proper pokemon info using API, formats and sends message
     private void getPokemonCommand(TextChannel channel, String message)
     {
+        // first substring after !pokemon command identifies the unique pokemon either with ID or Name
         String[] splitCommand = message.split(" ");
         Optional<PokeModel> pokeData = pokeApi.getPokemon(splitCommand[1].toLowerCase());
 
+        // if the API succesfully returned unique pokemon data 
         if (pokeData.isPresent())
         {
             PokeModel validPoke = pokeData.get();
@@ -89,6 +89,7 @@ public class BotService
             SpriteModel sprites = validPoke.getSprites();
 
             // create message with Pokemon data
+            // contents: name, id, stats, custom nature recommendation & embedded sprite image
             new MessageBuilder()
                 .append("Name: ", MessageDecoration.BOLD) 
                 .append(validPoke.getName() + "\n")
