@@ -3,7 +3,7 @@
 #
 target/
 bin/
-src/main/resources/
+src/main/resources/config.properties
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
