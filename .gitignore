@@ -3,6 +3,7 @@
 #
 target/
 bin/
+logs/
 src/main/resources/config.properties
 pom.xml.tag
 pom.xml.releaseBackup

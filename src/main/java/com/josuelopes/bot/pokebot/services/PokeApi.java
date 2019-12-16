@@ -9,6 +9,8 @@ import com.josuelopes.bot.pokebot.models.StatModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+@EnableCaching
 public class PokeApi
 {
     // used to identify stat collection indices
@@ -49,6 +52,7 @@ public class PokeApi
     }
 
     // get unique pokemon JSON file from API and convert into object
+    @Cacheable("pokemonData")
     public Optional<PokeModel> getPokemon(String id)
     {
         // add unique ID to the base url
