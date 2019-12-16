@@ -26,6 +26,10 @@ Whenever the `!pokemon` command is used followed by either the Pokemon name or I
 
 **HP**: 90
 
+**Base Stat Total**: 315.0
+
+**Optimized Stat Total**: 275.0 *(minus the unused attack stat)*
+
 **Highest Stat**: Defence
 
 **Recommended Nature**: Impish (+Def/-Sp.Atk)

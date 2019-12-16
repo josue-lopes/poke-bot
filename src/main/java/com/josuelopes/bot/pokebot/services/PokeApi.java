@@ -235,6 +235,33 @@ public class PokeApi
         return natureRec;
     }
 
+    public double getStatTotal(List<StatModel> stats)
+    {
+        double sum = 0.0;
+
+        for(StatModel stat: stats)
+        {
+            sum += stat.getBaseStat();
+        }
+
+        return sum;
+    }
+
+    // returns the total of all stats minus the lower attack stat
+    public double getModifiedStatTotal(List<StatModel> stats)
+    {
+        double sum = getStatTotal(stats);
+        int atk = stats.get(STAT_ATK).getBaseStat();
+        int spAtk = stats.get(STAT_SP_ATK).getBaseStat();
+
+        if (atk >= spAtk)
+            sum -= spAtk;
+        else
+            sum -= atk;
+
+        return sum;
+    }
+
     // create formatted string for 1 primary nature recommendation
     private String getPrimaryNatureString(Nature nature, int highestStatIndex)
     {
@@ -316,13 +343,7 @@ public class PokeApi
 
     private double getAverageStatValue(List<StatModel> stats)
     {
-        double average = 0.0;
-
-        for(StatModel stat: stats)
-        {
-            average += stat.getBaseStat();
-        }
-
+        double average = getStatTotal(stats);
         return (average / 6.0);
     }
 

@@ -59,3 +59,131 @@
 2019-12-16 15:52:59,022 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 2] Outputting info for tentacool to Discord
 2019-12-16 15:53:06,415 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
 2019-12-16 15:53:06,570 INFO org.javacord.core.util.logging.PrivacyProtectionLogger [ReadingThread] Websocket closed with reason 'unknown' and code NORMAL (1000) by client!
+2019-12-16 15:57:02,018 INFO org.springframework.boot.StartupInfoLogger [main] Starting App v1.0.0 on Josue with PID 70336 (C:\Users\Josue\Workspace\pokebot\target\pokebot-1.0.0-spring-boot.jar started by Josue in C:\Users\Josue\Workspace\pokebot)
+2019-12-16 15:57:02,030 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2019-12-16 15:57:04,651 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2019-12-16 15:57:04,688 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2019-12-16 15:57:04,690 INFO org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2019-12-16 15:57:04,692 INFO org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.27]
+2019-12-16 15:57:04,878 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2019-12-16 15:57:04,879 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 2724 ms
+2019-12-16 15:57:05,242 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2019-12-16 15:57:05,792 INFO org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2019-12-16 15:57:05,841 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2019-12-16 15:57:05,845 INFO org.springframework.boot.StartupInfoLogger [main] Started App in 5.145 seconds (JVM running for 6.28)
+2019-12-16 15:57:05,900 INFO com.josuelopes.bot.pokebot.services.BotService [main] ------Initializing PokeBot 1.0.0------
+2019-12-16 15:57:05,902 INFO com.josuelopes.bot.pokebot.services.BotService [main] Logging into Discord with credentials from file
+2019-12-16 15:57:10,387 INFO com.josuelopes.bot.pokebot.services.BotService [main] Adding listener for !pokemon command
+2019-12-16 15:57:20,446 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/tentacreul
+2019-12-16 15:57:21,259 ERROR com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] RestClientException in PokeApi class: HTTP error when requesting data from Pokemon API
+
+org.springframework.web.client.HttpClientErrorException$NotFound: 404 Not Found
+	at org.springframework.web.client.HttpClientErrorException.create(HttpClientErrorException.java:85)
+	at org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:123)
+	at org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:102)
+	at org.springframework.web.client.ResponseErrorHandler.handleError(ResponseErrorHandler.java:63)
+	at org.springframework.web.client.RestTemplate.handleResponse(RestTemplate.java:785)
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:743)
+	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:677)
+	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:586)
+	at com.josuelopes.bot.pokebot.services.PokeApi.getPokemon(PokeApi.java:66)
+	at com.josuelopes.bot.pokebot.services.BotService.getPokemonCommand(BotService.java:82)
+	at com.josuelopes.bot.pokebot.services.BotService.lambda$setUpCommands$0(BotService.java:72)
+	at org.javacord.core.util.event.EventDispatcher.lambda$dispatchMessageCreateEvent$95(EventDispatcher.java:3413)
+	at org.javacord.core.util.event.EventDispatcherBase.lambda$dispatchEvent$10(EventDispatcherBase.java:197)
+	at org.javacord.core.util.event.EventDispatcherBase.lambda$checkRunningListenersAndStartIfPossible$18(EventDispatcherBase.java:265)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2019-12-16 15:57:21,289 WARN com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 1] No Pokemon data was able to be returned from the last API call
+2019-12-16 15:57:34,880 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 2] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/tentacruel
+2019-12-16 15:57:36,062 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 2] Calculating nature recommendation for current Pokemon
+2019-12-16 15:57:36,090 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 2] Outputting info for tentacruel to Discord
+2019-12-16 15:57:48,786 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/eelektross
+2019-12-16 15:57:49,388 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Calculating nature recommendation for current Pokemon
+2019-12-16 15:57:49,390 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 1] Outputting info for eelektross to Discord
+2019-12-16 15:58:01,398 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 2] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/araquanid
+2019-12-16 15:58:01,987 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 2] Calculating nature recommendation for current Pokemon
+2019-12-16 15:58:01,991 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 2] Outputting info for araquanid to Discord
+2019-12-16 16:08:52,462 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/79
+2019-12-16 16:08:52,939 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Calculating nature recommendation for current Pokemon
+2019-12-16 16:08:52,941 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 1] Outputting info for slowpoke to Discord
+2019-12-16 16:09:24,079 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 3] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/slowbro
+2019-12-16 16:09:25,967 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 3] Calculating nature recommendation for current Pokemon
+2019-12-16 16:09:25,970 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 3] Outputting info for slowbro to Discord
+2019-12-16 16:14:27,625 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
+2019-12-16 16:14:27,758 INFO org.javacord.core.util.logging.PrivacyProtectionLogger [ReadingThread] Websocket closed with reason 'unknown' and code NORMAL (1000) by client!
+2019-12-16 16:21:43,487 INFO org.springframework.boot.StartupInfoLogger [main] Starting App v1.0.0 on Josue with PID 77848 (C:\Users\Josue\Workspace\pokebot\target\pokebot-1.0.0-spring-boot.jar started by Josue in C:\Users\Josue\Workspace\pokebot)
+2019-12-16 16:21:43,491 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2019-12-16 16:21:44,943 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2019-12-16 16:21:44,959 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2019-12-16 16:21:44,961 INFO org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2019-12-16 16:21:44,971 INFO org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.27]
+2019-12-16 16:21:45,095 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2019-12-16 16:21:45,119 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1554 ms
+2019-12-16 16:21:45,370 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2019-12-16 16:21:45,537 INFO org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2019-12-16 16:21:45,569 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2019-12-16 16:21:45,573 INFO org.springframework.boot.StartupInfoLogger [main] Started App in 2.555 seconds (JVM running for 3.051)
+2019-12-16 16:21:45,605 INFO com.josuelopes.bot.pokebot.services.BotService [main] ------Initializing PokeBot 1.0.0------
+2019-12-16 16:21:45,606 INFO com.josuelopes.bot.pokebot.services.BotService [main] Logging into Discord with credentials from file
+2019-12-16 16:21:47,441 INFO com.josuelopes.bot.pokebot.services.BotService [main] Adding listener for !pokemon command
+2019-12-16 16:21:55,920 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/slowbro
+2019-12-16 16:21:56,910 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Calculating nature recommendation for current Pokemon
+2019-12-16 16:21:56,979 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 1] Outputting info for slowbro to Discord
+2019-12-16 16:22:14,210 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
+2019-12-16 16:22:14,291 INFO org.javacord.core.util.logging.PrivacyProtectionLogger [ReadingThread] Websocket closed with reason 'unknown' and code NORMAL (1000) by client!
+2019-12-16 16:23:07,730 INFO org.springframework.boot.StartupInfoLogger [main] Starting App v1.0.0 on Josue with PID 79408 (C:\Users\Josue\Workspace\pokebot\target\pokebot-1.0.0-spring-boot.jar started by Josue in C:\Users\Josue\Workspace\pokebot)
+2019-12-16 16:23:07,734 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2019-12-16 16:23:09,274 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2019-12-16 16:23:09,291 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2019-12-16 16:23:09,293 INFO org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2019-12-16 16:23:09,300 INFO org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.27]
+2019-12-16 16:23:09,367 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2019-12-16 16:23:09,368 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1552 ms
+2019-12-16 16:23:09,533 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2019-12-16 16:23:09,690 INFO org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2019-12-16 16:23:09,720 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2019-12-16 16:23:09,724 INFO org.springframework.boot.StartupInfoLogger [main] Started App in 2.549 seconds (JVM running for 3.082)
+2019-12-16 16:23:09,751 INFO com.josuelopes.bot.pokebot.services.BotService [main] ------Initializing PokeBot 1.0.0------
+2019-12-16 16:23:09,753 INFO com.josuelopes.bot.pokebot.services.BotService [main] Logging into Discord with credentials from file
+2019-12-16 16:23:11,697 INFO com.josuelopes.bot.pokebot.services.BotService [main] Adding listener for !pokemon command
+2019-12-16 16:23:17,008 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/80
+2019-12-16 16:23:17,727 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Calculating nature recommendation for current Pokemon
+2019-12-16 16:23:17,750 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 1] Outputting info for slowbro to Discord
+2019-12-16 16:23:38,854 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 2] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/rayquaza
+2019-12-16 16:23:40,120 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 2] Calculating nature recommendation for current Pokemon
+2019-12-16 16:23:40,124 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 2] Outputting info for rayquaza to Discord
+2019-12-16 16:24:59,312 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/230
+2019-12-16 16:25:00,242 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Calculating nature recommendation for current Pokemon
+2019-12-16 16:25:00,246 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 1] Outputting info for kingdra to Discord
+2019-12-16 16:33:21,383 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
+2019-12-16 16:33:21,795 INFO org.javacord.core.util.logging.PrivacyProtectionLogger [ReadingThread] Websocket closed with reason 'unknown' and code NORMAL (1000) by client!
+2019-12-16 16:36:08,444 INFO org.springframework.boot.StartupInfoLogger [main] Starting App v1.0.0 on Josue with PID 79300 (C:\Users\Josue\Workspace\pokebot\target\pokebot-1.0.0-spring-boot.jar started by Josue in C:\Users\Josue\Workspace\pokebot)
+2019-12-16 16:36:08,448 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2019-12-16 16:36:09,896 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2019-12-16 16:36:09,915 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2019-12-16 16:36:09,917 INFO org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2019-12-16 16:36:09,922 INFO org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.27]
+2019-12-16 16:36:10,027 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2019-12-16 16:36:10,028 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1506 ms
+2019-12-16 16:36:10,229 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2019-12-16 16:36:10,392 INFO org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2019-12-16 16:36:10,453 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2019-12-16 16:36:10,457 INFO org.springframework.boot.StartupInfoLogger [main] Started App in 2.716 seconds (JVM running for 3.271)
+2019-12-16 16:36:10,478 INFO com.josuelopes.bot.pokebot.services.BotService [main] ------Initializing PokeBot 1.0.0------
+2019-12-16 16:36:10,481 INFO com.josuelopes.bot.pokebot.services.BotService [main] Logging into Discord with credentials from file
+2019-12-16 16:36:12,775 INFO com.josuelopes.bot.pokebot.services.BotService [main] Adding listener for !pokemon command
+2019-12-16 16:36:20,045 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/slowbro
+2019-12-16 16:36:20,563 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Calculating nature recommendation for current Pokemon
+2019-12-16 16:36:20,654 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 1] Outputting info for slowbro to Discord
+2019-12-16 16:37:06,941 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 2] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/tentacruel
+2019-12-16 16:37:07,480 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 2] Calculating nature recommendation for current Pokemon
+2019-12-16 16:37:07,481 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 2] Outputting info for tentacruel to Discord
+2019-12-16 16:37:53,489 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Attempting to grab pokemon data at https://pokeapi.co/api/v2/pokemon/slowpoke
+2019-12-16 16:37:55,453 INFO com.josuelopes.bot.pokebot.services.PokeApi [Javacord - Central ExecutorService - 1] Calculating nature recommendation for current Pokemon
+2019-12-16 16:37:55,457 INFO com.josuelopes.bot.pokebot.services.BotService [Javacord - Central ExecutorService - 1] Outputting info for slowpoke to Discord
+2019-12-16 16:39:51,213 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [SpringContextShutdownHook] Shutting down ExecutorService 'applicationTaskExecutor'
+2019-12-16 16:39:51,311 INFO org.javacord.core.util.logging.PrivacyProtectionLogger [ReadingThread] Websocket closed with reason 'unknown' and code NORMAL (1000) by client!
